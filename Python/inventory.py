@@ -7,20 +7,36 @@
 def args(*args, **kwargs):
     print 'args: ', args, ' kwargs: ', kwargs
 
+# For example, initialized optionally by map from items to quantity in stock
+# or simply by list of available merchandise
 class Inventory:
     def __init__(self, **data)
         self.stock = data['stock']
-        self.inventory = (data['inventory'] if data['inventory'] 
+        self.catalogue = (data['catalogue'] if data['catalogue'] 
                 else {self.stock : 0} }
 
 # Alternatively use @classmethod
 
 class Inventory2:
-    def __init__(self, stock):
+    # Initialize with dictionary mapping items to quantity in stock
+    def __init__(self, stock = {}):
         self.stock = data
         self.catalogue = stock.keys()
 
     @classmethod
+    # Initialize inventory w list of available merchandise
+    # Quantity in stock initialized to 0
     def catalogue(inv, data):
         stock = dict((item, 0) for item in data)
         return inv(stock, data)
+
+    def add_item(self, item, supply=0):
+        stock[item] += supply
+
+    def sub_item(self, item, supply=0):
+        if supply == 0:
+            stock.del(item)
+        elif supply < stock[item]:
+            stock[item] -= supply
+        else:
+            stock[item] = 0 
