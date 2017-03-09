@@ -10,7 +10,7 @@ def args(*args, **kwargs):
 # For example, initialized optionally by map from items to quantity in stock
 # or simply by list of available merchandise
 class Inventory:
-    def __init__(self, **data)
+    def __init__(self, **data):
         self.stock = data['stock']
         self.catalogue = (data['catalogue'] if data['catalogue'] 
                 else {self.stock : 0} }
