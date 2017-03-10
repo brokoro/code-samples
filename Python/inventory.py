@@ -12,11 +12,9 @@ def args(*args, **kwargs):
 class Inventory:
     def __init__(self, **data):
         self.stock = data['stock']
-        self.catalogue = (data['catalogue'] if data['catalogue'] 
-                else {self.stock : 0} }
+        self.catalogue = data['catalogue'] if 'catalogue' in data else data['stock'].keys() 
 
 # Alternatively use @classmethod
-
 class Inventory2:
     # Initialize with dictionary mapping items to quantity in stock
     def __init__(self, stock = {}):
@@ -35,7 +33,7 @@ class Inventory2:
 
     def sub_item(self, item, supply=0):
         if supply == 0:
-            stock.del(item)
+            del stock[item]
         elif supply < stock[item]:
             stock[item] -= supply
         else:
