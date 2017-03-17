@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 # An inventory class that stores a catalogue of products and their number in 
 # stock
 # Multiple constructors for passing in only the catalogue, or the catalogue with
@@ -12,13 +14,13 @@ def args(*args, **kwargs):
 class Inventory:
     def __init__(self, **data):
         self.stock = data['stock']
-        self.catalogue = data['catalogue'] if 'catalogue' in data else data['stock'].keys() 
+        self.catalogue = data['catalogue'] if 'catalogue' in data else data['stock'].keys()
 
 # Alternatively use @classmethod
 class Inventory2:
     # Initialize with dictionary mapping items to quantity in stock
-    def __init__(self, stock = {}):
-        self.stock = data
+    def __init__(self, stock = defaultdict(int)):
+        self.stock = stock
         self.catalogue = stock.keys()
 
     @classmethod
@@ -26,15 +28,35 @@ class Inventory2:
     # Quantity in stock initialized to 0
     def catalogue(inv, data):
         stock = dict((item, 0) for item in data)
-        return inv(stock, data)
+        return inv(stock)
 
-    def add_item(self, item, supply=0):
-        stock[item] += supply
+    def incr(self, item, supply = 0):
+        self.stock[item] += supply
 
-    def sub_item(self, item, supply=0):
-        if supply == 0:
-            del stock[item]
-        elif supply < stock[item]:
-            stock[item] -= supply
+    def decr(self, item, supply = None):
+        if not supply:
+            del self.stock[item]
         else:
-            stock[item] = 0 
+            self.stock[item] -= supply
+        if self.stock[item] < 0:
+            print "You are short %d %ss" % (self.stock[item], item)
+
+    def enlist(self, *items):
+        for item in items:
+            self.stock[item] = 0
+
+    def delist(self, item):
+        del self.stock[item]
+
+    def audit(self):
+        print self.stock
+
+clothing_data = ["tshirts", "hats", "hoodies"]
+
+clothing_inv = Inventory2.catalogue(clothing_data)
+
+clothing_inv.enlist("sweats", "long sleeve")
+
+clothing_inv.audit()
+
+
