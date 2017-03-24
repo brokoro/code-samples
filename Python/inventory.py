@@ -30,9 +30,11 @@ class Inventory2:
         stock = dict((item, 0) for item in data)
         return inv(stock)
 
+    # Increase the supply of an item
     def incr(self, item, supply = 0):
         self.stock[item] += supply
 
+    # Decrease the supply of an item
     def decr(self, item, supply = None):
         if not supply:
             del self.stock[item]
@@ -41,22 +43,30 @@ class Inventory2:
         if self.stock[item] < 0:
             print "You are short %d %ss" % (self.stock[item], item)
 
+    # Put new items on the catalogue
     def enlist(self, *items):
         for item in items:
             self.stock[item] = 0
 
+    # Remove old items from the catalogue
     def delist(self, item):
         del self.stock[item]
 
+    # Write out each item and their amount in stock
     def audit(self):
         print self.stock
 
+# Start with some initial catalogue
+
 clothing_data = ["tshirts", "hats", "hoodies"]
 
+# Initialize inventory from catalogue
 clothing_inv = Inventory2.catalogue(clothing_data)
 
+# Put new clothing items on catalogue
 clothing_inv.enlist("sweats", "long sleeve")
 
+# Display inventory
 clothing_inv.audit()
 
 
